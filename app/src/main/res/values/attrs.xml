@@ -2,7 +2,13 @@
 <resources>
 
     <declare-styleable name="AntwhaleImageSlider">
-        <attr name="imgCount" format="integer"/>
+
+        <attr name="bottomMargin" format="dimension" />
+        <attr name="indicatorMargin" format="dimension" />
+        <attr name="activeIndicatorRes" format="integer" />
+        <attr name="inactiveIndicatorRes" format="integer" />
+        <attr name="autoScrolling" format="boolean" />
+        <attr name="scrollingDelay" format="integer" />
     </declare-styleable>
 
 </resources>
