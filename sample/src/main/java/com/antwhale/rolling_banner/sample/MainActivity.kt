@@ -1,10 +1,12 @@
-package com.antwhale.imageslider
+package com.antwhale.rolling_banner.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.antwhale.view.imageslider.R
+import com.antwhale.imageslider.AntwhaleImageSlider
 
 class MainActivity : AppCompatActivity() {
+    val antwhaleImageSlider : AntwhaleImageSlider by lazy { findViewById(R.id.imageSlider) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,9 +19,8 @@ class MainActivity : AppCompatActivity() {
             "https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg"
         )
 
-        val imageSlider = findViewById<AntwhaleImageSlider>(R.id.imageSlider)
-        imageSlider.setImgList(images)
-
+        val rollingBannerAdapter = RollingBannerAdapter(images)
+        antwhaleImageSlider.setAdapter(rollingBannerAdapter)
 
     }
 }

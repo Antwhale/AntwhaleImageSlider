@@ -3,6 +3,7 @@ package com.antwhale.imageslider
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.text.Layout
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +11,18 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.antwhale.view.imageslider.R
 import com.antwhale.view.imageslider.databinding.AntwhaleImageSliderBinding
 
-class AntwhaleImageSlider(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
-    private lateinit var binding: AntwhaleImageSliderBinding
+class AntwhaleImageSlider(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var layoutSliderIndicators: LinearLayout
+    private lateinit var constraintLayout: ConstraintLayout
+
     private var bottomMargin : Int
     private var indicatorMargin : Int
     private var activeIndicatorRes : Int
@@ -28,17 +33,20 @@ class AntwhaleImageSlider(context: Context, attrs: AttributeSet) : FrameLayout(c
     private var scrollHandler = Handler(Looper.getMainLooper())
 
     private val autoScrolling = Runnable {
-        val currentIndex = binding.viewPager2.currentItem
-//        Log.d(TAG, "currentIndex: $currentIndex")
+        val currentIndex = viewPager2.currentItem
 
-        binding.viewPager2.setCurrentItem(currentIndex + 1, true)
+        viewPager2.setCurrentItem(currentIndex + 1, true)
 
         startAutoScrolling()
     }
 
     init {
-//        Log.d(TAG, "AntwhaleImageSlider init ")
-        binding = AntwhaleImageSliderBinding.inflate(LayoutInflater.from(context), this, true)
+        val layoutInflater = LayoutInflater.from(context)
+        layoutInflater.inflate(R.layout.antwhale_image_slider, this, true)
+
+        viewPager2 = findViewById(R.id.viewPager2)
+        layoutSliderIndicators = findViewById(R.id.layoutSliderIndicators)
+        constraintLayout = findViewById(R.id.constraintLayout)
 
         //attrs.xml에서 View의 속성을 가져온다.
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AntwhaleImageSlider)
@@ -62,24 +70,24 @@ class AntwhaleImageSlider(context: Context, attrs: AttributeSet) : FrameLayout(c
             indicators[index] = ImageView(context)
             indicators[index]?.setImageDrawable(ContextCompat.getDrawable(context, inactiveIndicatorRes))
             indicators[index]?.layoutParams = layoutParams
-            binding.layoutSliderIndicators.addView(indicators[index])
+            layoutSliderIndicators.addView(indicators[index])
         }
 
         val constraints = ConstraintSet()
-        constraints.clone(binding.constraintLayout)
+        constraints.clone(constraintLayout)
         constraints.connect(R.id.layoutSliderIndicators, ConstraintSet.START, R.id.constraintLayout, ConstraintSet.START)
         constraints.connect(R.id.layoutSliderIndicators, ConstraintSet.END, R.id.constraintLayout, ConstraintSet.END)
         constraints.connect(R.id.layoutSliderIndicators, ConstraintSet.BOTTOM, R.id.constraintLayout, ConstraintSet.BOTTOM, bottomMargin)
-        constraints.applyTo(binding.constraintLayout)
+        constraints.applyTo(constraintLayout)
 
         setCurrentSliderIndicator(0)
     }
 
-    fun setCurrentSliderIndicator(position: Int) {
-        val childCount = binding.layoutSliderIndicators.childCount
+    private fun setCurrentSliderIndicator(position: Int) {
+        val childCount = layoutSliderIndicators.childCount
         for(index in 0 until childCount) {
-            val imageView = binding.layoutSliderIndicators.getChildAt(index) as ImageView
-            val realPosition = (binding.viewPager2.adapter as AntwhaleImageSliderAdapter).getRealPosition(position)
+            val imageView = layoutSliderIndicators.getChildAt(index) as ImageView
+            val realPosition = (viewPager2.adapter as AntwhaleImageSliderAdapter<*, *>).getRealPosition(position)
             if(index == realPosition) {
                 imageView.setImageDrawable(
                     ContextCompat.getDrawable(context, activeIndicatorRes)
@@ -93,7 +101,7 @@ class AntwhaleImageSlider(context: Context, attrs: AttributeSet) : FrameLayout(c
     }
 
     private fun initViewPager2() {
-        binding.viewPager2.apply {
+        viewPager2.apply {
             offscreenPageLimit = 1
 
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -105,10 +113,9 @@ class AntwhaleImageSlider(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
     }
 
-    fun setImgList(imgList : List<String>) {
-        binding.viewPager2.adapter = AntwhaleImageSliderAdapter(imgList)
-
-        initIndicator(imgList.size)
+    fun setAdapter(antwhaleImageSliderAdapter: AntwhaleImageSliderAdapter<*, *>) {
+        viewPager2.adapter = antwhaleImageSliderAdapter
+        initIndicator(antwhaleImageSliderAdapter.sliderImages.size)
 
         if(isAutoScrolling) startAutoScrolling()
     }

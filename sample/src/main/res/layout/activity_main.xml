@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.antwhale.imageslider.MainActivity">
+    tools:context=".MainActivity">
 
     <com.antwhale.imageslider.AntwhaleImageSlider
         android:id="@+id/imageSlider"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:autoScrolling="true"
+        app:bottomMargin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,18 +19,3 @@
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <com.antwhale.imageslider.AntwhaleImageSlider
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:imgCount="5"
-        />
-
-</LinearLayout>-->
