@@ -1,0 +1,84 @@
+ext {
+    PUBLISH_GROUP_ID = 'io.github.antwhale'
+    PUBLISH_VERSION = '1.0.0'
+    PUBLISH_ARTIFACT_ID = 'AntwhaleImageSlider'
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin('com.android.library')) {
+        //For android libraries
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        //For pure kotlin libraries, in case you have them
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+artifacts {
+    archives androidSourcesJar
+}
+
+group = PUBLISH_GROUP_ID
+version = PUBLISH_VERSION
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                //The coordinates of the library, being set from variables that we'll setup later
+                groupId PUBLISH_GROUP_ID
+                artifactId PUBLISH_ARTIFACT_ID
+                version PUBLISH_VERSION
+
+                //Two artifacts, the 'aar' (or 'jar') and the sources
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.release
+                } else {
+                    from components.java
+                }
+
+                artifact androidSourcesJar
+
+                pom {
+                    name = 'AntwhaleImageSlider'
+                    description = 'CustomView to show sliding images'
+                    url = 'https://github.com/antwhale/AntwhaleImageSlider'
+                    licenses {
+                        license {
+                            name = ''
+                            url = ''
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'Antwhale'
+                            name = 'JaeSik Boo'
+                            email = 'olollolo339@naver.com'
+                            url = 'https://github.com/antwhale/AntwhaleImageSlider'
+                        }
+                    }
+                    //Version control info
+                    scm {
+                        connection = 'scm:git:github.com/antwhale/AntwhaleImageSlider.git'
+                        developerConnection = 'scm:git:ssh://github.com/antwhale/AntwhaleImageSlider.git'
+                        url = 'https://github.com/antwhale/AntwhaleImageSlider/tree/master'
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(
+            rootProject.ext["signing.keyId"],
+            rootProject.ext["signing.key"],
+            rootProject.ext["signing.password"]
+    )
+    sign publishing.publications
+}

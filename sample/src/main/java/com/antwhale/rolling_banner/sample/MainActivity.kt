@@ -2,7 +2,7 @@ package com.antwhale.rolling_banner.sample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.antwhale.imageslider.AntwhaleImageSlider
+import io.github.antwhale.AntwhaleImageSlider
 
 class MainActivity : AppCompatActivity() {
     val antwhaleImageSlider : AntwhaleImageSlider by lazy { findViewById(R.id.imageSlider) }

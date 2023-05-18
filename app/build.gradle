@@ -3,6 +3,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'maven-publish'
 }
 
 android {
@@ -37,9 +38,12 @@ android {
     }
 }
 
+apply {
+    from("${rootDir}/app/publish-remote.gradle")
+}
+
 dependencies {
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'

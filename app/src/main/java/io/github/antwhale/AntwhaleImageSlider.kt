@@ -1,11 +1,9 @@
-package com.antwhale.imageslider
+package io.github.antwhale
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.text.Layout
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -16,7 +14,6 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.antwhale.view.imageslider.R
-import com.antwhale.view.imageslider.databinding.AntwhaleImageSliderBinding
 
 class AntwhaleImageSlider(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs) {
     private lateinit var viewPager2: ViewPager2

@@ -1,4 +1,4 @@
-package com.antwhale.imageslider
+package io.github.antwhale
 
 import androidx.recyclerview.widget.RecyclerView
 
