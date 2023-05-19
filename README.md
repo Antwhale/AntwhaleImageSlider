@@ -4,7 +4,7 @@ AntwhaleImageSlider is CustomView to provide showing infinite sliding images.
 
 You can use it with a little code.
 
-<img src = "https://github.com/antwhale/AntwhaleImageSlider/assets/85996753/2c8d3a05-576f-4408-ba40-511d58556027">
+<p align="center"><img src = "https://user-images.githubusercontent.com/85996753/239445405-199b4c2e-a227-45e6-b919-074b38f3459d.gif" height="456" width="216"></p>
 
 
 ## Usages
