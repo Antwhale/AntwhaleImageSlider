@@ -29,5 +29,4 @@ class RollingBannerAdapter(
         val imageView = itemView.findViewById<ImageView>(R.id.imageView)
 
     }
-
 }

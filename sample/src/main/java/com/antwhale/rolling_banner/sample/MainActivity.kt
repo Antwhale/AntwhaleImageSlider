@@ -5,11 +5,13 @@ import android.os.Bundle
 import io.github.antwhale.AntwhaleImageSlider
 
 class MainActivity : AppCompatActivity() {
-    val antwhaleImageSlider : AntwhaleImageSlider by lazy { findViewById(R.id.imageSlider) }
+//    val antwhaleImageSlider : AntwhaleImageSlider by lazy { findViewById(R.id.imageSlider) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val antwhaleImageSlider = findViewById<AntwhaleImageSlider>(R.id.imageSlider)
 
         val images = listOf(
             "https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg",
