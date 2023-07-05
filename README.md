@@ -14,7 +14,7 @@ You can use it with a little code.
 app/build.gradle
 
 ```groovy
-implementation 'io.github.antwhale:AntwhaleImageSlider:1.0.0'
+implementation 'io.github.antwhale:AntwhaleImageSlider:1.0.1'
 ```
     
 ### 2️⃣ Define XML
